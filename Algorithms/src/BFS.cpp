@@ -8,6 +8,7 @@
 /**
  * Breadth First Search (BFS)
  * Time complexity: O(V+E)
+ * Greedy algorithm
  * Uses an unweighted graph
  * Uses a queue
  */

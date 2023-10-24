@@ -2,55 +2,55 @@
 
 /**
  * Quick Sort
- * Time complexity: O(nlogn)
+ * Time complexity: O(nlogn). Depending on the pivot it can be O(n^2)
  * Uses divide and conquer (D&Q)
  * Uses recursion
  */
 namespace QuickSort
 {
-std::vector<int> Sort(const std::vector<int>& inNums)
+int Partition(std::vector<int>& inNums, const int inLowIndex, const int inHighIndex)
+{
+    // Pivot is last element of the array
+    const int Pivot = inNums[inHighIndex];
+
+    int i = inLowIndex - 1;
+    for (int j = inLowIndex; j <= inHighIndex; ++j)
+    {
+        const int Num = inNums[j];
+        if (Num <= Pivot)
+        {
+            ++i;
+
+            // Swap
+            inNums[j] = inNums[i];
+            inNums[i] = Num;
+        }
+    }
+
+    return i;
+}
+
+void Sort(std::vector<int>& inNums, const int inLowIndex, const int inHighIndex)
 {
     // Base case
-    const std::size_t NumsSize = inNums.size();
-    if (NumsSize <= 1)
+    if (inLowIndex >= inHighIndex)
     {
-        return inNums;
+        return;
     }
 
     // Recursive case
-    const std::size_t PivotIndex = NumsSize / 2;
-    const int         Pivot      = inNums[PivotIndex];
-    std::vector<int>  LesserNums;
-    std::vector<int>  GreaterNums;
-    for (std::size_t i = 0; i < NumsSize; ++i)
-    {
-        if (i == PivotIndex)
-        {
-            continue;
-        }
-
-        const int Num = inNums[i];
-        if (Num <= Pivot)
-        {
-            LesserNums.emplace_back(Num);
-        }
-        else
-        {
-            GreaterNums.emplace_back(Num);
-        }
-    }
-
-    std::vector<int>       SortedLesserNums  = Sort(LesserNums);
-    const std::vector<int> SortedGreaterNums = Sort(GreaterNums);
-    SortedLesserNums.emplace_back(Pivot);
-    SortedLesserNums.insert(SortedLesserNums.end(), SortedGreaterNums.begin(), SortedGreaterNums.end());
-    return SortedLesserNums;
+    const int i = Partition(inNums, inLowIndex, inHighIndex);
+    Sort(inNums, inLowIndex, i - 1);
+    Sort(inNums, i + 1, inHighIndex);
 }
 } // namespace QuickSort
 
 TEST(QuickSortTest, VectorIsSorted)
 {
-    const std::vector<int> InNums = {5, 1, 1, 2, 0, 0};
-    const std::vector<int> OuNums = {0, 0, 1, 1, 2, 5};
-    EXPECT_EQ(QuickSort::Sort(InNums), OuNums);
+    std::vector<int>       InNums      = {5, 1, 1, 2, 0, 0};
+    const int              InLowIndex  = 0;
+    const int              InHighIndex = static_cast<int>(InNums.size()) - 1;
+    const std::vector<int> OutNums     = {0, 0, 1, 1, 2, 5};
+    QuickSort::Sort(InNums, InLowIndex, InHighIndex);
+    EXPECT_EQ(InNums, OutNums);
 }

@@ -2,19 +2,62 @@
 
 /**
  * Merge Sort
- * Time complexity: O(nlogn)
+ * Time complexity: O(nlogn). Always the same
  * Uses divide and conquer (D&Q)
  * Uses recursion
  */
 namespace MergeSort
 {
-std::vector<int> Sort(const std::vector<int>& inNums)
+void Merge(std::vector<int>& inNums, const std::vector<int>& inLeftNums, const std::vector<int>& inRightNums)
+{
+    std::size_t       WriteIndex     = 0;
+    const std::size_t LeftNumsSize   = inLeftNums.size();
+    std::size_t       LeftReadIndex  = 0;
+    const std::size_t RightNumsSize  = inRightNums.size();
+    std::size_t       RightReadIndex = 0;
+
+    while (LeftReadIndex < LeftNumsSize && RightReadIndex < RightNumsSize)
+    {
+        const int LeftNum  = inLeftNums[LeftReadIndex];
+        const int RightNum = inRightNums[RightReadIndex];
+        if (LeftNum < RightNum)
+        {
+            inNums[WriteIndex] = LeftNum;
+            ++LeftReadIndex;
+        }
+        else
+        {
+            inNums[WriteIndex] = RightNum;
+            ++RightReadIndex;
+        }
+
+        ++WriteIndex;
+    }
+
+    while (LeftReadIndex < LeftNumsSize)
+    {
+        const int LeftNum  = inLeftNums[LeftReadIndex];
+        inNums[WriteIndex] = LeftNum;
+        ++LeftReadIndex;
+        ++WriteIndex;
+    }
+
+    while (RightReadIndex < RightNumsSize)
+    {
+        const int RightNum = inRightNums[RightReadIndex];
+        inNums[WriteIndex] = RightNum;
+        ++RightReadIndex;
+        ++WriteIndex;
+    }
+}
+
+void Sort(std::vector<int>& inNums)
 {
     // Base case
     const std::size_t NumsSize = inNums.size();
     if (NumsSize <= 1)
     {
-        return inNums;
+        return;
     }
 
     // Recursive case
@@ -36,52 +79,16 @@ std::vector<int> Sort(const std::vector<int>& inNums)
         RightNums.emplace_back(Num);
     }
 
-    std::vector<int> SortedNums;
-    SortedNums.reserve(NumsSize);
-    const std::vector<int> SortedLeftNums  = Sort(LeftNums);
-    const std::size_t      LeftNumsSize    = SortedLeftNums.size();
-    std::size_t            LeftReadIndex   = 0;
-    const std::vector<int> SortedRightNums = Sort(RightNums);
-    const std::size_t      RightNumsSize   = SortedRightNums.size();
-    std::size_t            RightReadIndex  = 0;
-
-    while (LeftReadIndex < LeftNumsSize && RightReadIndex < RightNumsSize)
-    {
-        const int SortedLeftNum  = SortedLeftNums[LeftReadIndex];
-        const int SortedRightNum = SortedRightNums[RightReadIndex];
-        if (SortedLeftNum < SortedRightNum)
-        {
-            SortedNums.emplace_back(SortedLeftNum);
-            ++LeftReadIndex;
-        }
-        else
-        {
-            SortedNums.emplace_back(SortedRightNum);
-            ++RightReadIndex;
-        }
-    }
-
-    while (LeftReadIndex < LeftNumsSize)
-    {
-        const int sortedLeftNum = SortedLeftNums[LeftReadIndex];
-        SortedNums.emplace_back(sortedLeftNum);
-        ++LeftReadIndex;
-    }
-
-    while (RightReadIndex < RightNumsSize)
-    {
-        const int sortedRightNum = SortedRightNums[RightReadIndex];
-        SortedNums.emplace_back(sortedRightNum);
-        ++RightReadIndex;
-    }
-
-    return SortedNums;
+    Sort(LeftNums);
+    Sort(RightNums);
+    Merge(inNums, LeftNums, RightNums);
 }
 } // namespace MergeSort
 
 TEST(MergeSortTest, VectorIsSorted)
 {
-    const std::vector<int> InNums  = {5, 1, 1, 2, 0, 0};
+    std::vector<int>       InNums  = {5, 1, 1, 2, 0, 0};
     const std::vector<int> OutNums = {0, 0, 1, 1, 2, 5};
-    EXPECT_EQ(MergeSort::Sort(InNums), OutNums);
+    MergeSort::Sort(InNums);
+    EXPECT_EQ(InNums, OutNums);
 }
