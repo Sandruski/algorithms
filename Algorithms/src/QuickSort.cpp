@@ -12,7 +12,7 @@ std::vector<int> Sort(const std::vector<int>& inNums)
 {
     // Base case
     const std::size_t NumsSize = inNums.size();
-    if (NumsSize < 2)
+    if (NumsSize <= 1)
     {
         return inNums;
     }
@@ -20,8 +20,8 @@ std::vector<int> Sort(const std::vector<int>& inNums)
     // Recursive case
     const std::size_t PivotIndex = NumsSize / 2;
     const int         Pivot      = inNums[PivotIndex];
-    std::vector<int>  Lesser;
-    std::vector<int>  Greater;
+    std::vector<int>  LesserNums;
+    std::vector<int>  GreaterNums;
     for (std::size_t i = 0; i < NumsSize; ++i)
     {
         if (i == PivotIndex)
@@ -32,19 +32,19 @@ std::vector<int> Sort(const std::vector<int>& inNums)
         const int Num = inNums[i];
         if (Num <= Pivot)
         {
-            Lesser.emplace_back(Num);
+            LesserNums.emplace_back(Num);
         }
-        else // Num > Pivot
+        else
         {
-            Greater.emplace_back(Num);
+            GreaterNums.emplace_back(Num);
         }
     }
 
-    std::vector<int> SortedLesser  = Sort(Lesser);
-    std::vector<int> SortedGreater = Sort(Greater);
-    SortedLesser.emplace_back(Pivot);
-    SortedLesser.insert(SortedLesser.end(), SortedGreater.begin(), SortedGreater.end());
-    return SortedLesser;
+    std::vector<int>       SortedLesserNums  = Sort(LesserNums);
+    const std::vector<int> SortedGreaterNums = Sort(GreaterNums);
+    SortedLesserNums.emplace_back(Pivot);
+    SortedLesserNums.insert(SortedLesserNums.end(), SortedGreaterNums.begin(), SortedGreaterNums.end());
+    return SortedLesserNums;
 }
 } // namespace QuickSort
 
