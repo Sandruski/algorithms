@@ -2,6 +2,8 @@
 
 /**
  * A*
+ * Pathfinding algorithm
+ * Uses a pathfinding graph
  * Time complexity: TODO
  */
 namespace AStar
