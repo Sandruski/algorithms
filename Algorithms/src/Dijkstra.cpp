@@ -71,7 +71,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
             break;
         }
 
-        // Otherwise get its neighbors
+        // Otherwise go through its neighbors
         if (const Neighbors* Neighbors = inGraph.FindNeighbors(CurrentNode))
         {
             const float CurrentCostSoFar = CurrentNodeRecord->GetCostSoFar();
@@ -109,7 +109,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
             }
         }
 
-        // Move node from open list to closed list
+        // Move it from the open list to the closed list
         ClosedList.emplace_back(*CurrentNodeRecord);
         OpenList.erase(std::remove(OpenList.begin(), OpenList.end(), *CurrentNodeRecord));
     }
@@ -149,12 +149,12 @@ protected:
         mInGraph.AddConnection(m2To3Connection);
     }
 
+    Graph      mInGraph;
     Connection m0To1Connection = Connection(0, 1, 6);
     Connection m0To2Connection = Connection(0, 2, 2);
     Connection m1To3Connection = Connection(1, 3, 1);
     Connection m2To1Connection = Connection(2, 1, 3);
     Connection m2To3Connection = Connection(2, 3, 5);
-    Graph      mInGraph;
 };
 
 TEST_F(DijkstraTest, PathExists)
