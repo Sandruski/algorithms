@@ -1,5 +1,5 @@
 #include "Helpers/PathfindingGraph.h"
-#include "Helpers/PathfindingHelpers.h"
+#include "Helpers/PathfindingList.h"
 
 #include <algorithm>
 
@@ -9,8 +9,7 @@ using namespace Pathfinding;
  * Dijkstra
  * Pathfinding algorithm: solves the mathematical problem of the shortest path
  * Uses a pathfinding graph
- * Finds the shortest paths to all nodes from a node
- * Returns the path from the start node to the goal node
+ * Finds the shortest paths (lowest total costs) to all nodes (including the goal node) from the start node
  * Useful for tactical analysis
  * Time complexity: O(mn) (m = node, n = connection)
  * Space complexity: O(mn)
@@ -35,20 +34,6 @@ const NodeRecord* FindLowestCostSoFarNodeRecord(const PathfindingList& inPathfin
     }
 
     return LowestCostSoFarNodeRecord;
-};
-
-NodeRecord* FindNodeRecord(PathfindingList& inPathfindingList, const Node inNode)
-{
-    for (NodeRecord& NodeRecord : inPathfindingList)
-    {
-        const Node Node = NodeRecord.GetNode();
-        if (Node == inNode)
-        {
-            return &NodeRecord;
-        }
-    }
-
-    return nullptr;
 }
 
 Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
@@ -99,8 +84,9 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                         continue;
                     }
                 }
-                else // Open this node if it is unvisited
+                else
                 {
+                    // Open this node if it is unvisited
                     NeighborNodeRecord = &OpenList.emplace_back(NodeRecord(NeighborNode));
                 }
 

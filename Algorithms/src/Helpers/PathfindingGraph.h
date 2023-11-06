@@ -1,13 +1,11 @@
 #pragma once
 
+#include "Helpers/PathfindingGraphFwd.h"
+
 #include <unordered_map>
-#include <vector>
 
 namespace Pathfinding
 {
-// Edge
-using Node = unsigned int;
-
 /**
  * Vertex
  * Pair of nodes
@@ -31,9 +29,6 @@ private:
     float mCost = 0.f;
 };
 
-// List of outgoing connections from a node
-using Neighbors = std::vector<Connection>;
-
 /**
  * Pathfinding graph
  * Directed non-negative weighted graph
@@ -50,12 +45,10 @@ private:
     // Node to its neighbors
     std::unordered_map<Node, Neighbors> mConnections;
 };
+} // namespace Pathfinding
 
-inline Connection::Connection(const Node inFromNode, const Node inToNode, const float inCost)
-    : mFromNode(inFromNode), mToNode(inToNode), mCost(inCost)
+namespace Pathfinding
 {
-}
-
 inline bool Connection::operator==(const Connection& inOther) const
 {
     return ((mFromNode == inOther.mFromNode) && (mToNode == inOther.mToNode) && (mCost == inOther.mCost));
