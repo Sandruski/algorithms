@@ -6,16 +6,38 @@
 using namespace Pathfinding;
 
 /**
- * Dijkstra
+ * AStar
  * Pathfinding algorithm: solves the mathematical problem of the shortest path
  * Uses a pathfinding graph
  * Finds the shortest path (lowest total cost) to the goal node (point-to-point pathfinding) from the start node
  * Useful for pathfinding and decision-making
- * Time complexity:
- * Space complexity:
+ * Time complexity: O(lm) (l = number of nodes whose total estimated total cost is less than that of the goal node, m = average number of outgoing
+ * connections from each node)
+ * Space complexity: O(lm)
  */
 namespace AStar
 {
+/**
+ * Non-negative value
+ * E.g. Manhattan Distance
+ */
+class Heuristic
+{
+public:
+    explicit Heuristic(const Node inGoalNode) : mGoalNode(inGoalNode)
+    {
+    }
+
+    // Returns an estimated cost to reach the goal node from the given node
+    float Estimate(MAYBE_UNUSED const Node inNode)
+    {
+        return 1.f;
+    }
+
+private:
+    Node mGoalNode = 0;
+};
+
 const NodeRecord* FindLowestEstimatedTotalCostNodeRecord(const PathfindingList& inPathfindingList)
 {
     const NodeRecord* LowestEstimatedTotalCostNodeRecord = nullptr;
@@ -36,14 +58,12 @@ const NodeRecord* FindLowestEstimatedTotalCostNodeRecord(const PathfindingList& 
     return LowestEstimatedTotalCostNodeRecord;
 }
 
-float CalculateHeuristic(const Node inNode)
-{
-}
-
-Path Search([[maybe_unused]] const Graph& inGraph, [[maybe_unused]] const Node inStartNode, [[maybe_unused]] const Node inGoalNode)
+Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 {
     PathfindingList OpenList = {NodeRecord(inStartNode)};
     PathfindingList ClosedList;
+
+    Heuristic Heuristic(inGoalNode);
 
     const NodeRecord* CurrentNodeRecord = nullptr;
 
@@ -69,14 +89,14 @@ Path Search([[maybe_unused]] const Graph& inGraph, [[maybe_unused]] const Node i
             {
                 const Node  NeighborNode         = Neighbor.GetToNode();
                 const float NeighborCost         = Neighbor.GetCost();
-                const float NeighborNewCostSoFar = CurrentCostSoFar + NeighborCost;
+                const float NewNeighborCostSoFar = CurrentCostSoFar + NeighborCost;
                 float       NeighborHeuristic    = 0.f;
 
                 if (NodeRecord* NeighborNodeRecord = FindNodeRecord(ClosedList, NeighborNode))
                 {
                     // Skip this node if it is closed and the new route is worse
                     const float NeighborCostSoFar = NeighborNodeRecord->GetCostSoFar();
-                    if (NeighborCostSoFar <= NeighborNewCostSoFar)
+                    if (NeighborCostSoFar <= NewNeighborCostSoFar)
                     {
                         continue;
                     }
@@ -93,7 +113,7 @@ Path Search([[maybe_unused]] const Graph& inGraph, [[maybe_unused]] const Node i
                 {
                     // Skip this node if it is open but the new route is worse
                     const float NeighborCostSoFar = NeighborNodeRecord->GetCostSoFar();
-                    if (NeighborCostSoFar <= NeighborNewCostSoFar)
+                    if (NeighborCostSoFar <= NewNeighborCostSoFar)
                     {
                         continue;
                     }
@@ -107,12 +127,12 @@ Path Search([[maybe_unused]] const Graph& inGraph, [[maybe_unused]] const Node i
                     NeighborNodeRecord = &OpenList.emplace_back(NodeRecord(NeighborNode));
 
                     // Update its heuristic by calling the heuristic function
-                    NeighborHeuristic = CalculateHeuristic(NeighborNode);
+                    NeighborHeuristic = Heuristic.Estimate(NeighborNode);
                 }
 
                 // Update the cost and the connections of this node
                 const float NeighborEstimatedTotalCost = NeighborCost + NeighborHeuristic;
-                NeighborNodeRecord->Update(NeighborNewCostSoFar, NeighborEstimatedTotalCost, &Neighbor);
+                NeighborNodeRecord->Update(NewNeighborCostSoFar, NeighborEstimatedTotalCost, &Neighbor);
             }
         }
 
@@ -142,13 +162,46 @@ Path Search([[maybe_unused]] const Graph& inGraph, [[maybe_unused]] const Node i
 
     return Path;
 }
-
 } // namespace AStar
 
-TEST(AStarTest, PathExists)
+class AStarTest : public testing::Test
 {
+protected:
+    void SetUp() override
+    {
+        mInGraph.AddConnection(m0To1Connection);
+        mInGraph.AddConnection(m0To2Connection);
+        mInGraph.AddConnection(m1To3Connection);
+        mInGraph.AddConnection(m2To1Connection);
+        mInGraph.AddConnection(m2To3Connection);
+    }
+
+    Graph      mInGraph;
+    Connection m0To1Connection = Connection(0, 1, 6);
+    Connection m0To2Connection = Connection(0, 2, 2);
+    Connection m1To3Connection = Connection(1, 3, 1);
+    Connection m2To1Connection = Connection(2, 1, 3);
+    Connection m2To3Connection = Connection(2, 3, 5);
+};
+
+TEST_F(AStarTest, PathExists)
+{
+    const Node InStartNode = 0;
+    const Node InGoalNode  = 3;
+    const Path OutPath     = {m0To2Connection, m2To1Connection, m1To3Connection};
+    EXPECT_EQ(AStar::Search(mInGraph, InStartNode, InGoalNode), OutPath);
 }
 
-TEST(AStarTest, PathDoesNotExist)
+TEST_F(AStarTest, PathDoesNotExist)
 {
+    const Node InStartNode = 3;
+    const Node InGoalNode  = 0;
+    const Path OutPath     = {};
+    EXPECT_EQ(AStar::Search(mInGraph, InStartNode, InGoalNode), OutPath);
 }
+
+/**
+ * AIFG
+ * https://www.redblobgames.com/pathfinding/a-star/introduction.html
+ * https://www.redblobgames.com/pathfinding/a-star/implementation.html
+ */

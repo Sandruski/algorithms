@@ -11,8 +11,8 @@ using namespace Pathfinding;
  * Uses a pathfinding graph
  * Finds the shortest paths (lowest total costs) to all nodes (including the goal node) from the start node
  * Useful for tactical analysis
- * Time complexity: O(mn) (m = node, n = connection)
- * Space complexity: O(mn)
+ * Time complexity: O(nm) (n = number of nodes whose total cost so far is less than that of the goal node, m = average number of outgoing connections from each node)
+ * Space complexity: O(nm)
  */
 namespace Dijkstra
 {
@@ -158,3 +158,9 @@ TEST_F(DijkstraTest, PathDoesNotExist)
     const Path OutPath     = {};
     EXPECT_EQ(Dijkstra::Search(mInGraph, InStartNode, InGoalNode), OutPath);
 }
+
+/**
+ * Grokking Algorithms
+ * AIFG
+ * https://www.redblobgames.com/pathfinding/a-star/introduction.html
+ */
