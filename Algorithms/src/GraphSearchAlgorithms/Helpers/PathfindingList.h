@@ -9,6 +9,7 @@ class NodeRecord
 {
 public:
     explicit NodeRecord(const Node inNode);
+    explicit NodeRecord(const Node inNode, const Connection* inConnection);
 
     bool operator==(const NodeRecord& inOther) const;
 

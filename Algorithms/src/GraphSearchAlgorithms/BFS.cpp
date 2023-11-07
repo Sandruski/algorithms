@@ -1,103 +1,107 @@
 #include "GraphSearchAlgorithms/Helpers/Graph.h"
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
+#include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
 #include <algorithm>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+
+using namespace Pathfinding;
 
 /**
  * Breadth-First Search (BFS)
  * Time complexity: O(V+E)
  * Space complexity: O(V+E)
  */
-/*
+
 namespace BFS
 {
-Path Search(const Graph& inGraph, const std::string& inOrigin, const std::string& inDestination)
+Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 {
-    const auto OriginNeighborsIt = inGraph.find(inOrigin);
-    if (OriginNeighborsIt == inGraph.end())
-    {
-        return {};
-    }
+    std::queue<NodeRecord> NodesToProcess;
+    NodesToProcess.emplace(NodeRecord(inStartNode));
 
-    std::queue<std::string>                      NodesToProcess;
-    std::unordered_map<std::string, std::string> NodeParents;
+    // TODO salvarez Rename this list to something that is not pathfinding. Should it be an unordered set instead?
+    PathfindingList ProcessedNodes;
 
-    const std::vector<std::string>& OriginNeighbors = OriginNeighborsIt->second;
-    for (const std::string& OriginNeighbor : OriginNeighbors)
-    {
-        NodesToProcess.push(OriginNeighbor);
-        NodeParents[OriginNeighbor] = inOrigin;
-    }
-
-    std::unordered_set<std::string> ProcessedNodes;
+    const NodeRecord* CurrentNodeRecord = nullptr;
 
     while (!NodesToProcess.empty())
     {
-        const std::string NodeToProcess = NodesToProcess.front();
+        CurrentNodeRecord = &NodesToProcess.front();
         NodesToProcess.pop();
 
-        if (ProcessedNodes.contains(NodeToProcess))
-        {
-            continue;
-        }
+        const Node CurrentNode = CurrentNodeRecord->GetNode();
 
-        if (NodeToProcess == inDestination)
+        if (CurrentNode == inGoalNode)
         {
             break;
         }
 
-        const auto NeighborsIt = inGraph.find(NodeToProcess);
-        if (NeighborsIt == inGraph.end())
+        const Neighbors* Neighbors = inGraph.FindNeighbors(CurrentNode);
+        if (!Neighbors)
         {
             continue;
         }
 
-        const std::vector<std::string>& Neighbors = NeighborsIt->second;
-        for (const std::string& Neighbor : Neighbors)
+        for (const Connection& Neighbor : *Neighbors)
         {
-            NodesToProcess.push(Neighbor);
-            NodeParents[Neighbor] = NodeToProcess;
+            const Node NeighborNode = Neighbor.GetToNode();
+
+            // Skip this node if it is processed
+            if (FindNodeRecord(ProcessedNodes, NeighborNode))
+            {
+                continue;
+            }
+
+            NodesToProcess.emplace(NodeRecord(NeighborNode, &Neighbor));
         }
 
-        ProcessedNodes.emplace(NodeToProcess);
+        ProcessedNodes.emplace_back(*CurrentNodeRecord);
     }
 
-    // Build path
+    // If the goal node is not found, terminate
+    Node CurrentNode = CurrentNodeRecord->GetNode();
+    if (CurrentNode != inGoalNode)
+    {
+        return {};
+    }
+
+    // Otherwise build its path
     Path Path;
-    for (auto NodeParentIt = NodeParents.find(inDestination); NodeParentIt != NodeParents.end();
-         NodeParentIt      = NodeParents.find(NodeParentIt->second))
+    while (CurrentNode != inStartNode)
     {
-        const std::string& Node = NodeParentIt->first;
-        Path.emplace_back(Node);
+        const Connection* Connection = CurrentNodeRecord->GetConnection();
+        Path.emplace_back(*Connection);
+        CurrentNode       = Connection->GetFromNode();
+        CurrentNodeRecord = FindNodeRecord(ProcessedNodes, CurrentNode);
     }
 
-    if (!Path.empty())
-    {
-        Path.emplace_back(inOrigin);
-        std::reverse(Path.begin(), Path.end());
-    }
+    std::reverse(Path.begin(), Path.end());
 
     return Path;
 }
 } // namespace BFS
 
-class BFSTest : public GraphSearchAlgorithmTest
+class BFSTest : public GraphSearchAlgorithmTestBase
 {
 };
 
-TEST_F(GraphSearchAlgorithmTest, PathExists)
+TEST_F(BFSTest, PathExists)
 {
-    const Node InStartNode = 0;
-    const Node InGoalNode  = 3;
-    const Path OutPath     = {m0To2Connection, m2To1Connection, m1To3Connection};
-    EXPECT_EQ(BFS::Search(mInGraph, InStartNode, InGoalNode), OutPath);
+    const Graph& InGraph     = GetGraph();
+    const Node   InStartNode = 0;
+    const Node   InGoalNode  = 3;
+    const Path   OutPath     = {Get0To1Connection(), Get1To3Connection()};
+    EXPECT_EQ(BFS::Search(InGraph, InStartNode, InGoalNode), OutPath);
 }
 
-TEST_F(GraphSearchAlgorithmTest, PathDoesNotExist)
+TEST_F(BFSTest, PathDoesNotExist)
 {
-    const Node InStartNode = 3;
-    const Node InGoalNode  = 0;
-    const Path OutPath     = {};
-    EXPECT_EQ(BFS::Search(mInGraph, InStartNode, InGoalNode), OutPath);
+    const Graph& InGraph     = GetGraph();
+    const Node   InStartNode = 3;
+    const Node   InGoalNode  = 0;
+    const Path   OutPath     = {};
+    EXPECT_EQ(BFS::Search(InGraph, InStartNode, InGoalNode), OutPath);
 }
-*/
