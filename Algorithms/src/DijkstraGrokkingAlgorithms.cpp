@@ -9,9 +9,6 @@
 
 /**
  * Dijkstra
- * Pathfinding algorithm: solves the mathematical problem of the shortest path
- * Finds the shortest paths to all nodes from a node. Useful for tactical analysis
- * Uses a pathfinding graph
  * Time complexity: O(V^2)
  */
 /*

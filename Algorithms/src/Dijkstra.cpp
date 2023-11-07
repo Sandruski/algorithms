@@ -7,10 +7,6 @@ using namespace Pathfinding;
 
 /**
  * Dijkstra
- * Pathfinding algorithm: solves the mathematical problem of the shortest path
- * Uses a pathfinding graph
- * Finds the shortest paths (lowest total costs) to all nodes (including the goal node) from the start node
- * Useful for tactical analysis
  * Time complexity: O(nm) (n = number of nodes whose total cost so far is less than that of the goal node, m = average number of outgoing connections from each node)
  * Space complexity: O(nm)
  */

@@ -7,11 +7,6 @@ using namespace Pathfinding;
 
 /**
  * AStar
- * Graph search algorithm
- * Pathfinding algorithm: solves the mathematical problem of the shortest path
- * Uses a pathfinding graph
- * Finds the shortest path (lowest total cost) to the goal node (point-to-point pathfinding) from the start node
- * Useful for pathfinding and decision-making
  * Time complexity: O(lm) (l = number of nodes whose total estimated total cost is less than that of the goal node, m = average number of outgoing
  * connections from each node)
  * Space complexity: O(lm)
