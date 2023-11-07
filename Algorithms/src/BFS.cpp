@@ -7,8 +7,11 @@
 
 /**
  * Breadth First Search (BFS)
- * Time complexity: O(V+E)
+ * Simplest graph search algorithm
  * Greedy algorithm
+ * Explores equally in all directions
+ * Useful for flow field pathfinding and map analysis
+ * Time complexity: O(V+E)
  * Uses an unweighted graph
  * Uses a queue
  */
