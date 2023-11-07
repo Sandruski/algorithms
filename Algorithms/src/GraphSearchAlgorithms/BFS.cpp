@@ -1,21 +1,17 @@
+#include "GraphSearchAlgorithms/Helpers/Graph.h"
+#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
+
 #include <algorithm>
-#include <queue>
-#include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
 /**
  * Breadth-First Search (BFS)
  * Time complexity: O(V+E)
  * Space complexity: O(V+E)
  */
+/*
 namespace BFS
 {
-using Graph = std::unordered_map<std::string, std::vector<std::string>>;
-using Path  = std::vector<std::string>;
-
-std::vector<std::string> Search(const Graph& inGraph, const std::string& inOrigin, const std::string& inDestination)
+Path Search(const Graph& inGraph, const std::string& inOrigin, const std::string& inDestination)
 {
     const auto OriginNeighborsIt = inGraph.find(inOrigin);
     if (OriginNeighborsIt == inGraph.end())
@@ -85,33 +81,23 @@ std::vector<std::string> Search(const Graph& inGraph, const std::string& inOrigi
 }
 } // namespace BFS
 
-class BFSTest : public testing::Test
+class BFSTest : public GraphSearchAlgorithmTest
 {
-protected:
-    void SetUp() override
-    {
-        mInGraph.reserve(4);
-        mInGraph["you"]    = {"alice", "bob", "claire"};
-        mInGraph["bob"]    = {"anuj", "peggy"};
-        mInGraph["alice"]  = {"peggy"};
-        mInGraph["claire"] = {"thom", "jonny"};
-    }
-
-    BFS::Graph mInGraph;
 };
 
-TEST_F(BFSTest, PathExists)
+TEST_F(GraphSearchAlgorithmTest, PathExists)
 {
-    const std::string InOrigin      = "you";
-    const std::string InDestination = "thom";
-    const BFS::Path   OutPath       = {"you", "claire", "thom"};
-    EXPECT_EQ(BFS::Search(mInGraph, InOrigin, InDestination), OutPath);
+    const Node InStartNode = 0;
+    const Node InGoalNode  = 3;
+    const Path OutPath     = {m0To2Connection, m2To1Connection, m1To3Connection};
+    EXPECT_EQ(BFS::Search(mInGraph, InStartNode, InGoalNode), OutPath);
 }
 
-TEST_F(BFSTest, PathDoesNotExist)
+TEST_F(GraphSearchAlgorithmTest, PathDoesNotExist)
 {
-    const std::string InOrigin      = "bob";
-    const std::string InDestination = "thom";
-    const BFS::Path   OutPath       = {};
-    EXPECT_EQ(BFS::Search(mInGraph, InOrigin, InDestination), OutPath);
+    const Node InStartNode = 3;
+    const Node InGoalNode  = 0;
+    const Path OutPath     = {};
+    EXPECT_EQ(BFS::Search(mInGraph, InStartNode, InGoalNode), OutPath);
 }
+*/

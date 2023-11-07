@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Helpers/PathfindingGraphFwd.h"
+#include "GraphSearchAlgorithms/Helpers/GraphFwd.h"
 
 #include <unordered_map>
 
-namespace Pathfinding
-{
 /**
  * Vertex
  * Pair of nodes
@@ -45,10 +43,7 @@ private:
     // Node to its neighbors
     std::unordered_map<Node, Neighbors> mConnections;
 };
-} // namespace Pathfinding
 
-namespace Pathfinding
-{
 inline bool Connection::operator==(const Connection& inOther) const
 {
     return ((mFromNode == inOther.mFromNode) && (mToNode == inOther.mToNode) && (mCost == inOther.mCost));
@@ -80,4 +75,4 @@ inline const Neighbors* Graph::FindNeighbors(const Node inNode) const
     const auto It = mConnections.find(inNode);
     return ((It != mConnections.end()) ? &It->second : nullptr);
 }
-} // namespace Pathfinding
+

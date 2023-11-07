@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Helpers/PathfindingGraphFwd.h"
-#include "Helpers/PathfindingListFwd.h"
+#include "GraphSearchAlgorithms/Helpers/GraphFwd.h"
+#include "GraphSearchAlgorithms/Helpers/PathfindingListFwd.h"
 
 namespace Pathfinding
 {

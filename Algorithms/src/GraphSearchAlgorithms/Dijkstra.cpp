@@ -1,5 +1,6 @@
-#include "Helpers/PathfindingGraph.h"
-#include "Helpers/PathfindingList.h"
+#include "GraphSearchAlgorithms/Helpers/Graph.h"
+#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
+#include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
 #include <algorithm>
 
@@ -7,8 +8,8 @@ using namespace Pathfinding;
 
 /**
  * Dijkstra
- * Time complexity: O(nm) (n = number of nodes whose total cost so far is less than that of the goal node, m = average number of outgoing connections from each node)
- * Space complexity: O(nm)
+ * Time complexity: O(nm) (n = number of nodes whose total cost so far is less than that of the goal node, m = average number of outgoing connections
+ * from each node) Space complexity: O(nm)
  */
 namespace Dijkstra
 {
@@ -119,44 +120,24 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 }
 } // namespace Dijkstra
 
-class DijkstraTest : public testing::Test
+class DijkstraTest : public GraphSearchAlgorithmTestBase
 {
-protected:
-    void SetUp() override
-    {
-        mInGraph.AddConnection(m0To1Connection);
-        mInGraph.AddConnection(m0To2Connection);
-        mInGraph.AddConnection(m1To3Connection);
-        mInGraph.AddConnection(m2To1Connection);
-        mInGraph.AddConnection(m2To3Connection);
-    }
-
-    Graph      mInGraph;
-    Connection m0To1Connection = Connection(0, 1, 6);
-    Connection m0To2Connection = Connection(0, 2, 2);
-    Connection m1To3Connection = Connection(1, 3, 1);
-    Connection m2To1Connection = Connection(2, 1, 3);
-    Connection m2To3Connection = Connection(2, 3, 5);
 };
 
 TEST_F(DijkstraTest, PathExists)
 {
-    const Node InStartNode = 0;
-    const Node InGoalNode  = 3;
-    const Path OutPath     = {m0To2Connection, m2To1Connection, m1To3Connection};
-    EXPECT_EQ(Dijkstra::Search(mInGraph, InStartNode, InGoalNode), OutPath);
+    const Graph& InGraph     = GetGraph();
+    const Node   InStartNode = 0;
+    const Node   InGoalNode  = 3;
+    const Path   OutPath     = {Get0To2Connection(), Get2To1Connection(), Get1To3Connection()};
+    EXPECT_EQ(Dijkstra::Search(InGraph, InStartNode, InGoalNode), OutPath);
 }
 
 TEST_F(DijkstraTest, PathDoesNotExist)
 {
-    const Node InStartNode = 3;
-    const Node InGoalNode  = 0;
-    const Path OutPath     = {};
-    EXPECT_EQ(Dijkstra::Search(mInGraph, InStartNode, InGoalNode), OutPath);
+    const Graph& InGraph     = GetGraph();
+    const Node   InStartNode = 3;
+    const Node   InGoalNode  = 0;
+    const Path   OutPath     = {};
+    EXPECT_EQ(Dijkstra::Search(InGraph, InStartNode, InGoalNode), OutPath);
 }
-
-/**
- * Grokking Algorithms
- * AIFG
- * https://www.redblobgames.com/pathfinding/a-star/introduction.html
- */

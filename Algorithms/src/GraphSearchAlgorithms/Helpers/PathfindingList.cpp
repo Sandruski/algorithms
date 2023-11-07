@@ -1,4 +1,4 @@
-#include "Helpers/PathfindingList.h"
+#include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
 namespace Pathfinding
 {
