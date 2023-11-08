@@ -84,7 +84,9 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
             const float CurrentCostSoFar = CurrentNodeRecord->GetCostSoFar();
 
             for (const Connection& Neighbor : *Neighbors)
-            {
+            { 
+                // Skip if this node is a wall
+                
                 const Node  NeighborNode         = Neighbor.GetToNode();
                 const float NeighborCost         = Neighbor.GetCost();
                 const float NewNeighborCostSoFar = CurrentCostSoFar + NeighborCost;
@@ -139,7 +141,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
         OpenList.erase(std::remove(OpenList.begin(), OpenList.end(), *CurrentNodeRecord));
     }
 
-  return BuildPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
+  return ReconstructPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
 } // namespace AStar
 

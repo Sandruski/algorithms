@@ -7,18 +7,18 @@
 
 namespace GraphSearchAlgorithms
 {
-Path BuildPath(const NodeRecord& inCurrentNodeRecord, const PathfindingList& inClosedList, const Node inStartNode, const Node inGoalNode)
+Path ReconstructPath(const NodeRecord& inCurrentNodeRecord, const PathfindingList& inClosedList, const Node inStartNode, const Node inGoalNode)
 {
     Path Path;
 
-    // If the goal node is not found, terminate
+    // If the goal node is not found, return an empty path
     Node CurrentNode = inCurrentNodeRecord.GetNode();
     if (CurrentNode != inGoalNode)
     {
         return Path;
     }
 
-    // Otherwise build its path
+    // Otherwise reconstruct the path by following the connections backwards from the goal node to the start node
     const NodeRecord* CurrentNodeRecord = &inCurrentNodeRecord;
     while (CurrentNode != inStartNode)
     {
@@ -27,6 +27,9 @@ Path BuildPath(const NodeRecord& inCurrentNodeRecord, const PathfindingList& inC
         CurrentNode       = Connection->GetFromNode();
         CurrentNodeRecord = FindNodeRecord(inClosedList, CurrentNode);
     }
+
+    // Optional
+    //Path.emplace_back(NodeRecord(inStartNode));
 
     std::reverse(Path.begin(), Path.end());
 

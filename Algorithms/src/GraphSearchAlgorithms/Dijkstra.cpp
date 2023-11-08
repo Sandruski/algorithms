@@ -36,6 +36,7 @@ const NodeRecord* FindLowestCostSoFarNodeRecord(const PathfindingList& inPathfin
 
 Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 {
+    // Open list should be a priority queue
     PathfindingList OpenList = {NodeRecord(inStartNode)};
     PathfindingList ClosedList;
 
@@ -61,6 +62,8 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 
             for (const Connection& Neighbor : *Neighbors)
             {
+                // Skip if this node is a wall
+
                 const Node NeighborNode = Neighbor.GetToNode();
 
                 // Skip this node if it is closed
@@ -98,7 +101,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
         OpenList.erase(std::remove(OpenList.begin(), OpenList.end(), *CurrentNodeRecord));
     }
 
-    return BuildPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
+    return ReconstructPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
 } // namespace Dijkstra
 

@@ -34,6 +34,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 
         const Node CurrentNode = CurrentNodeRecord->GetNode();
 
+        // If it is the goal node, terminate
         if (CurrentNode == inGoalNode)
         {
             break;
@@ -47,6 +48,8 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 
         for (const Connection& Neighbor : *Neighbors)
         {
+            // Skip if this node is a wall
+
             const Node NeighborNode = Neighbor.GetToNode();
 
             // Skip this node if it is processed
@@ -61,7 +64,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
         ProcessedNodes.emplace_back(*CurrentNodeRecord);
     }
 
-    return BuildPath(*CurrentNodeRecord, ProcessedNodes, inStartNode, inGoalNode);
+    return ReconstructPath(*CurrentNodeRecord, ProcessedNodes, inStartNode, inGoalNode);
 }
 } // namespace BFS
 

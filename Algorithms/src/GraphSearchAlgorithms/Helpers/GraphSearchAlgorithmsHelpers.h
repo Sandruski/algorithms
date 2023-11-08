@@ -5,5 +5,5 @@
 
 namespace GraphSearchAlgorithms
 {
-Path BuildPath(const NodeRecord& inCurrentNodeRecord, const PathfindingList& inClosedList, const Node inStartNode, const Node inGoalNode);
+Path ReconstructPath(const NodeRecord& inCurrentNodeRecord, const PathfindingList& inClosedList, const Node inStartNode, const Node inGoalNode);
 } // namespace GraphSearchAlgorithms
