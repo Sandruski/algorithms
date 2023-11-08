@@ -2,11 +2,12 @@
 
 #include <list>
 
-namespace Pathfinding
+namespace GraphSearchAlgorithms
 {
 class NodeRecord;
 
 using PathfindingList = std::list<NodeRecord>;
 
-NodeRecord* FindNodeRecord(PathfindingList& inPathfindingList, const Node inNode);
-} // namespace Pathfinding
+const NodeRecord* FindNodeRecord(const PathfindingList& inPathfindingList, const Node inNode);
+NodeRecord*       FindNodeRecordMutable(PathfindingList& inPathfindingList, const Node inNode);
+} // namespace GraphSearchAlgorithms

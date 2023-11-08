@@ -1,10 +1,11 @@
 #include "GraphSearchAlgorithms/Helpers/Graph.h"
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
+#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmsHelpers.h"
 #include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
 #include <algorithm>
 
-using namespace Pathfinding;
+using namespace GraphSearchAlgorithms;
 
 /**
  * Dijkstra
@@ -71,7 +72,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                 const float NeighborCost         = Neighbor.GetCost();
                 const float NeighborNewCostSoFar = CurrentCostSoFar + NeighborCost;
 
-                NodeRecord* NeighborNodeRecord = FindNodeRecord(OpenList, NeighborNode);
+                NodeRecord* NeighborNodeRecord = FindNodeRecordMutable(OpenList, NeighborNode);
                 if (NeighborNodeRecord)
                 {
                     // Skip this node if it is open but the new route is worse
@@ -97,26 +98,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
         OpenList.erase(std::remove(OpenList.begin(), OpenList.end(), *CurrentNodeRecord));
     }
 
-    // If the goal node is not found, terminate
-    Node CurrentNode = CurrentNodeRecord->GetNode();
-    if (CurrentNode != inGoalNode)
-    {
-        return {};
-    }
-
-    // Otherwise build its path
-    Path Path;
-    while (CurrentNode != inStartNode)
-    {
-        const Connection* Connection = CurrentNodeRecord->GetConnection();
-        Path.emplace_back(*Connection);
-        CurrentNode       = Connection->GetFromNode();
-        CurrentNodeRecord = FindNodeRecord(ClosedList, CurrentNode);
-    }
-
-    std::reverse(Path.begin(), Path.end());
-
-    return Path;
+    return BuildPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
 } // namespace Dijkstra
 

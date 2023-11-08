@@ -1,6 +1,6 @@
 #include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
-namespace Pathfinding
+namespace GraphSearchAlgorithms
 {
 NodeRecord::NodeRecord(const Node inNode) : mNode(inNode)
 {
@@ -10,7 +10,21 @@ NodeRecord::NodeRecord(const Node inNode, const Connection* inConnection) : mNod
 {
 }
 
-NodeRecord* FindNodeRecord(PathfindingList& inPathfindingList, const Node inNode)
+const NodeRecord* FindNodeRecord(const PathfindingList& inPathfindingList, const Node inNode)
+{
+    for (const NodeRecord& NodeRecord : inPathfindingList)
+    {
+        const Node Node = NodeRecord.GetNode();
+        if (Node == inNode)
+        {
+            return &NodeRecord;
+        }
+    }
+
+    return nullptr;
+}
+
+NodeRecord* FindNodeRecordMutable(PathfindingList& inPathfindingList, const Node inNode)
 {
     for (NodeRecord& NodeRecord : inPathfindingList)
     {
@@ -23,4 +37,4 @@ NodeRecord* FindNodeRecord(PathfindingList& inPathfindingList, const Node inNode
 
     return nullptr;
 }
-} // namespace Pathfinding
+} // namespace GraphSearchAlgorithms

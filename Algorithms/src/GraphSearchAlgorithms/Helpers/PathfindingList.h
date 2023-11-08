@@ -3,7 +3,7 @@
 #include "GraphSearchAlgorithms/Helpers/GraphFwd.h"
 #include "GraphSearchAlgorithms/Helpers/PathfindingListFwd.h"
 
-namespace Pathfinding
+namespace GraphSearchAlgorithms
 {
 class NodeRecord
 {
@@ -26,10 +26,7 @@ private:
     float             mCostSoFar          = 0;
     float             mEstimatedTotalCost = 0.f;
 };
-} // namespace Pathfinding
 
-namespace Pathfinding
-{
 inline bool NodeRecord::operator==(const NodeRecord& inOther) const
 {
     return ((mNode == inOther.mNode) && (mCostSoFar == inOther.mCostSoFar) && (mConnection == inOther.mConnection));
@@ -66,4 +63,4 @@ inline float NodeRecord::GetEstimatedTotalCost() const
 {
     return mEstimatedTotalCost;
 }
-} // namespace Pathfinding
+} // namespace GraphSearchAlgorithms

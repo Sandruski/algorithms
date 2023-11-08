@@ -4,6 +4,8 @@
 
 #include <unordered_map>
 
+namespace GraphSearchAlgorithms
+{
 /**
  * Vertex
  * Pair of nodes
@@ -75,4 +77,4 @@ inline const Neighbors* Graph::FindNeighbors(const Node inNode) const
     const auto It = mConnections.find(inNode);
     return ((It != mConnections.end()) ? &It->second : nullptr);
 }
-
+} // namespace GraphSearchAlgorithms

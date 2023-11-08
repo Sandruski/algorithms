@@ -4,6 +4,8 @@
 
 #include "gtest/gtest.h"
 
+namespace GraphSearchAlgorithms
+{
 class GraphSearchAlgorithmTestBase : public testing::Test
 {
 protected:
@@ -54,3 +56,4 @@ inline const Connection& GraphSearchAlgorithmTestBase::Get2To3Connection() const
 {
     return m2To3Connection;
 }
+} // namespace GraphSearchAlgorithms

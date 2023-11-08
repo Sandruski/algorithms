@@ -1,5 +1,7 @@
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
 
+namespace GraphSearchAlgorithms
+{
 void GraphSearchAlgorithmTestBase::SetUp()
 {
     mGraph.AddConnection(m0To1Connection);
@@ -8,3 +10,4 @@ void GraphSearchAlgorithmTestBase::SetUp()
     mGraph.AddConnection(m2To1Connection);
     mGraph.AddConnection(m2To3Connection);
 }
+} // namespace GraphSearchAlgorithms

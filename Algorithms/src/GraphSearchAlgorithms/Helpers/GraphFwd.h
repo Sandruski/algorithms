@@ -2,6 +2,8 @@
 
 #include <vector>
 
+namespace GraphSearchAlgorithms
+{
 class Connection;
 class Graph;
 
@@ -13,3 +15,4 @@ using Neighbors = std::vector<Connection>;
 
 // List of connections (instead of nodes because two nodes could have multiple connections) from the start node to the goal node
 using Path = std::vector<Connection>;
+} // namespace GraphSearchAlgorithms

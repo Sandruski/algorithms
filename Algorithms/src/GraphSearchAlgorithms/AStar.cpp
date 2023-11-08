@@ -1,10 +1,11 @@
 #include "GraphSearchAlgorithms/Helpers/Graph.h"
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
 #include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
+#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmsHelpers.h"
 
 #include <algorithm>
 
-using namespace Pathfinding;
+using namespace GraphSearchAlgorithms;
 
 /**
  * AStar
@@ -89,7 +90,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                 const float NewNeighborCostSoFar = CurrentCostSoFar + NeighborCost;
                 float       NeighborHeuristic    = 0.f;
 
-                if (NodeRecord* NeighborNodeRecord = FindNodeRecord(ClosedList, NeighborNode))
+                if (const NodeRecord* NeighborNodeRecord = FindNodeRecord(ClosedList, NeighborNode))
                 {
                     // Skip this node if it is closed and the new route is worse
                     const float NeighborCostSoFar = NeighborNodeRecord->GetCostSoFar();
@@ -105,7 +106,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                     ClosedList.erase(std::remove(ClosedList.begin(), ClosedList.end(), *NeighborNodeRecord));
                 }
 
-                NodeRecord* NeighborNodeRecord = FindNodeRecord(OpenList, NeighborNode);
+                NodeRecord* NeighborNodeRecord = FindNodeRecordMutable(OpenList, NeighborNode);
                 if (NeighborNodeRecord)
                 {
                     // Skip this node if it is open but the new route is worse
@@ -138,26 +139,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
         OpenList.erase(std::remove(OpenList.begin(), OpenList.end(), *CurrentNodeRecord));
     }
 
-    // If the goal node is not found, terminate
-    Node CurrentNode = CurrentNodeRecord->GetNode();
-    if (CurrentNode != inGoalNode)
-    {
-        return {};
-    }
-
-    // Otherwise build its path
-    Path Path;
-    while (CurrentNode != inStartNode)
-    {
-        const Connection* Connection = CurrentNodeRecord->GetConnection();
-        Path.emplace_back(*Connection);
-        CurrentNode       = Connection->GetFromNode();
-        CurrentNodeRecord = FindNodeRecord(ClosedList, CurrentNode);
-    }
-
-    std::reverse(Path.begin(), Path.end());
-
-    return Path;
+  return BuildPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
 } // namespace AStar
 
