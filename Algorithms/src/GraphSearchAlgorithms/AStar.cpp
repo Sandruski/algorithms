@@ -1,7 +1,7 @@
 #include "GraphSearchAlgorithms/Helpers/Graph.h"
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
-#include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmsHelpers.h"
+#include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
 #include <algorithm>
 
@@ -84,9 +84,9 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
             const float CurrentCostSoFar = CurrentNodeRecord->GetCostSoFar();
 
             for (const Connection& Neighbor : *Neighbors)
-            { 
+            {
                 // Skip if this node is a wall
-                
+
                 const Node  NeighborNode         = Neighbor.GetToNode();
                 const float NeighborCost         = Neighbor.GetCost();
                 const float NewNeighborCostSoFar = CurrentCostSoFar + NeighborCost;
@@ -102,7 +102,8 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                     }
 
                     // Update its heuristic by using the existing record
-                    NeighborHeuristic = NeighborCost - NeighborCostSoFar;
+                    const float NeighborEstimatedTotalCost = NeighborNodeRecord->GetEstimatedTotalCost();
+                    NeighborHeuristic                      = NeighborEstimatedTotalCost - NeighborCostSoFar;
 
                     // Remove it from the closed list
                     ClosedList.erase(std::remove(ClosedList.begin(), ClosedList.end(), *NeighborNodeRecord));
@@ -119,7 +120,8 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                     }
 
                     // Update its heuristic by using the existing record
-                    NeighborHeuristic = NeighborCost - NeighborCostSoFar;
+                    const float NeighborEstimatedTotalCost = NeighborNodeRecord->GetEstimatedTotalCost();
+                    NeighborHeuristic                      = NeighborEstimatedTotalCost - NeighborCostSoFar;
                 }
                 else
                 {
@@ -131,7 +133,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                 }
 
                 // Update the cost and the connections of this node
-                const float NeighborEstimatedTotalCost = NeighborCost + NeighborHeuristic;
+                const float NeighborEstimatedTotalCost = NewNeighborCostSoFar + NeighborHeuristic;
                 NeighborNodeRecord->Update(NewNeighborCostSoFar, NeighborEstimatedTotalCost, &Neighbor);
             }
         }
@@ -141,7 +143,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
         OpenList.erase(std::remove(OpenList.begin(), OpenList.end(), *CurrentNodeRecord));
     }
 
-  return ReconstructPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
+    return ReconstructPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
 } // namespace AStar
 
