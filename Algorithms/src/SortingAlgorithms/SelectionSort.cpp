@@ -47,10 +47,10 @@ class SelectionSortTest : public SortingAlgorithmTestBase
 {
 };
 
-TEST(SelectionSortTest, VectorIsSorted)
+TEST_F(SelectionSortTest, VectorIsSorted)
 {
-    const std::vector<int> InNums  = {5, 1, 1, 2, 0, 0};
-    const std::vector<int> OutNums = {0, 0, 1, 1, 2, 5};
+    const std::vector<int>& InNums  = GetNums();
+    const std::vector<int>  OutNums = {0, 0, 1, 1, 2, 5};
     EXPECT_EQ(SelectionSort::Sort(InNums), OutNums);
 }
 } // namespace SelectionSort

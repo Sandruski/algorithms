@@ -92,9 +92,9 @@ class MergeSortTest : public SortingAlgorithmTestBase
 {
 };
 
-TEST(MergeSortTest, VectorIsSorted)
+TEST_F(MergeSortTest, VectorIsSorted)
 {
-    std::vector<int>       InNums  = {5, 1, 1, 2, 0, 0};
+    std::vector<int>       InNums  = GetNums();
     const std::vector<int> OutNums = {0, 0, 1, 1, 2, 5};
     MergeSort::Sort(InNums);
     EXPECT_EQ(InNums, OutNums);

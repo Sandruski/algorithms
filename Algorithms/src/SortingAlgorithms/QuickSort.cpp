@@ -52,9 +52,9 @@ class QuickSortTest : public SortingAlgorithmTestBase
 {
 };
 
-TEST(QuickSortTest, VectorIsSorted)
+TEST_F(QuickSortTest, VectorIsSorted)
 {
-    std::vector<int>       InNums      = {5, 1, 1, 2, 0, 0};
+    std::vector<int>       InNums      = GetNums();
     const int              InLowIndex  = 0;
     const int              InHighIndex = static_cast<int>(InNums.size()) - 1;
     const std::vector<int> OutNums     = {0, 0, 1, 1, 2, 5};
