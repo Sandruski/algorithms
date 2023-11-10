@@ -7,8 +7,6 @@ using namespace SortingAlgorithms;
 /**
  * Merge Sort
  * Time complexity: O(nlogn). Always the same
- * Uses divide and conquer (D&Q)
- * Uses recursion
  */
 namespace MergeSort
 {

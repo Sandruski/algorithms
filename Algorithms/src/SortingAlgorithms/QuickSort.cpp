@@ -7,8 +7,6 @@ using namespace SortingAlgorithms;
 /**
  * Quick Sort
  * Time complexity: O(nlogn). Depending on the pivot it can be O(n^2)
- * Uses divide and conquer (D&Q)
- * Uses recursion
  */
 namespace QuickSort
 {

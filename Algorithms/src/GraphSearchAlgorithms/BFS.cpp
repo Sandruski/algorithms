@@ -11,8 +11,7 @@ using namespace GraphSearchAlgorithms;
 
 /**
  * Breadth-First Search (BFS)
- * Time complexity: O(V+E)
- * Space complexity: O(V+E)
+ * Time/space complexity: O(V+E)
  */
 
 namespace BFS

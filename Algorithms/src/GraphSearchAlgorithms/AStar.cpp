@@ -9,9 +9,8 @@ using namespace GraphSearchAlgorithms;
 
 /**
  * AStar
- * Time complexity: O(lm) (l = number of nodes whose total estimated total cost is less than that of the goal node, m = average number of outgoing
+ * Time/space complexity: O(lm) (l = number of nodes whose total estimated total cost is less than that of the goal node, m = average number of outgoing
  * connections from each node)
- * Space complexity: O(lm)
  */
 namespace AStar
 {

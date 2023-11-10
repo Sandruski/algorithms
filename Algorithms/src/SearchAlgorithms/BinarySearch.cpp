@@ -4,8 +4,10 @@
 
 using namespace SearchAlgorithms;
 
-// Binary Search
-// Time complexity: O(log2n)
+/**
+ * Binary Search
+ * Time complexity: O(logn)
+ */
 namespace BinarySearch
 {
 int Search(const std::vector<int>& inNums, const int inItem)

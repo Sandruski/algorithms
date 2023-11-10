@@ -9,8 +9,8 @@ using namespace GraphSearchAlgorithms;
 
 /**
  * Dijkstra
- * Time complexity: O(nm) (n = number of nodes whose total cost so far is less than that of the goal node, m = average number of outgoing connections
- * from each node) Space complexity: O(nm)
+ * Time/space complexity: O(nm) (n = number of nodes whose total cost so far is less than that of the goal node, m = average number of outgoing connections
+ * from each node)
  */
 namespace Dijkstra
 {
