@@ -103,7 +103,6 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 
     return ReconstructPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
-} // namespace Dijkstra
 
 class DijkstraTest : public GraphSearchAlgorithmTestBase
 {
@@ -126,3 +125,4 @@ TEST_F(DijkstraTest, PathDoesNotExist)
     const Path   OutPath     = {};
     EXPECT_EQ(Dijkstra::Search(InGraph, InStartNode, InGoalNode), OutPath);
 }
+} // namespace Dijkstra

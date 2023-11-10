@@ -1,4 +1,8 @@
+#include "SortingAlgorithms/Helpers/SortingAlgorithmTestBase.h"
+
 #include <vector>
+
+using namespace SortingAlgorithms;
 
 /**
  * Quick Sort
@@ -43,7 +47,10 @@ void Sort(std::vector<int>& inNums, const int inLowIndex, const int inHighIndex)
     Sort(inNums, inLowIndex, i - 1);
     Sort(inNums, i + 1, inHighIndex);
 }
-} // namespace QuickSort
+
+class QuickSortTest : public SortingAlgorithmTestBase
+{
+};
 
 TEST(QuickSortTest, VectorIsSorted)
 {
@@ -54,3 +61,4 @@ TEST(QuickSortTest, VectorIsSorted)
     QuickSort::Sort(InNums, InLowIndex, InHighIndex);
     EXPECT_EQ(InNums, OutNums);
 }
+} // namespace QuickSort

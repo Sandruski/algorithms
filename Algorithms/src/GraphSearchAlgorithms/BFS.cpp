@@ -66,7 +66,6 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 
     return ReconstructPath(*CurrentNodeRecord, ProcessedNodes, inStartNode, inGoalNode);
 }
-} // namespace BFS
 
 class BFSTest : public GraphSearchAlgorithmTestBase
 {
@@ -89,3 +88,4 @@ TEST_F(BFSTest, PathDoesNotExist)
     const Path   OutPath     = {};
     EXPECT_EQ(BFS::Search(InGraph, InStartNode, InGoalNode), OutPath);
 }
+} // namespace BFS

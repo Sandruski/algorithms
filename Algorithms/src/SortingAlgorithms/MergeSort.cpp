@@ -1,4 +1,8 @@
+#include "SortingAlgorithms/Helpers/SortingAlgorithmTestBase.h"
+
 #include <vector>
+
+using namespace SortingAlgorithms;
 
 /**
  * Merge Sort
@@ -83,7 +87,10 @@ void Sort(std::vector<int>& inNums)
     Sort(RightNums);
     Merge(inNums, LeftNums, RightNums);
 }
-} // namespace MergeSort
+
+class MergeSortTest : public SortingAlgorithmTestBase
+{
+};
 
 TEST(MergeSortTest, VectorIsSorted)
 {
@@ -92,3 +99,4 @@ TEST(MergeSortTest, VectorIsSorted)
     MergeSort::Sort(InNums);
     EXPECT_EQ(InNums, OutNums);
 }
+} // namespace MergeSort

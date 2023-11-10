@@ -1,4 +1,8 @@
+#include "SortingAlgorithms/Helpers/SortingAlgorithmTestBase.h"
+
 #include <vector>
+
+using namespace SortingAlgorithms;
 
 /**
  * Selection Sort
@@ -38,7 +42,10 @@ std::vector<int> Sort(std::vector<int> inNums)
 
     return SortedNums;
 }
-} // namespace SelectionSort
+
+class SelectionSortTest : public SortingAlgorithmTestBase
+{
+};
 
 TEST(SelectionSortTest, VectorIsSorted)
 {
@@ -46,3 +53,4 @@ TEST(SelectionSortTest, VectorIsSorted)
     const std::vector<int> OutNums = {0, 0, 1, 1, 2, 5};
     EXPECT_EQ(SelectionSort::Sort(InNums), OutNums);
 }
+} // namespace SelectionSort

@@ -145,7 +145,6 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 
     return ReconstructPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
-} // namespace AStar
 
 class AStarTest : public GraphSearchAlgorithmTestBase
 {
@@ -168,3 +167,4 @@ TEST_F(AStarTest, PathDoesNotExist)
     const Path   OutPath     = {};
     EXPECT_EQ(AStar::Search(InGraph, InStartNode, InGoalNode), OutPath);
 }
+} // namespace AStar
