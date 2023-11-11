@@ -10,6 +10,10 @@ NodeRecord::NodeRecord(const Node inNode, const Connection* inConnection) : mNod
 {
 }
 
+NodeRecord::NodeRecord(const Node inNode, const float inEstimatedTotalCost) : mNode(inNode), mEstimatedTotalCost(inEstimatedTotalCost)
+{
+}
+
 const NodeRecord* FindNodeRecord(const PathfindingList& inPathfindingList, const Node inNode)
 {
     for (const NodeRecord& NodeRecord : inPathfindingList)

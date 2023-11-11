@@ -9,8 +9,8 @@ using namespace GraphSearchAlgorithms;
 
 /**
  * AStar
- * Time/space complexity: O(lm) (l = number of nodes whose total estimated total cost is less than that of the goal node, m = average number of outgoing
- * connections from each node)
+ * Time/space complexity: O(lm) (l = number of nodes whose total estimated total cost is less than that of the goal node, m = average number of
+ * outgoing connections from each node)
  */
 namespace AStar
 {
@@ -26,7 +26,7 @@ public:
     }
 
     // Returns an estimated cost to reach the goal node from the given node
-    float Estimate(MAYBE_UNUSED const Node inNode)
+    float Estimate(MAYBE_UNUSED const Node inNode) const
     {
         return 1.f;
     }
@@ -55,12 +55,14 @@ const NodeRecord* FindLowestEstimatedTotalCostNodeRecord(const PathfindingList& 
     return LowestEstimatedTotalCostNodeRecord;
 }
 
-Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
+Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode, const Heuristic& inHeuristic)
 {
-    PathfindingList OpenList = {NodeRecord(inStartNode)};
-    PathfindingList ClosedList;
+    const float StartNodeHeuristic          = inHeuristic.Estimate(inStartNode);
+    const float StartNodeEstimatedTotalCost = StartNodeHeuristic;
+    NodeRecord  StartNodeRecord             = NodeRecord(inStartNode, StartNodeEstimatedTotalCost);
 
-    Heuristic Heuristic(inGoalNode);
+    PathfindingList OpenList = {StartNodeRecord};
+    PathfindingList ClosedList;
 
     const NodeRecord* CurrentNodeRecord = nullptr;
 
@@ -128,7 +130,7 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
                     NeighborNodeRecord = &OpenList.emplace_back(NodeRecord(NeighborNode));
 
                     // Update its heuristic by calling the heuristic function
-                    NeighborHeuristic = Heuristic.Estimate(NeighborNode);
+                    NeighborHeuristic = inHeuristic.Estimate(NeighborNode);
                 }
 
                 // Update the cost and the connections of this node
@@ -154,8 +156,9 @@ TEST_F(AStarTest, PathExists)
     const Graph& InGraph     = GetGraph();
     const Node   InStartNode = 0;
     const Node   InGoalNode  = 3;
+    Heuristic    InHeuristic = Heuristic(InGoalNode);
     const Path   OutPath     = {Get0To2Connection(), Get2To1Connection(), Get1To3Connection()};
-    EXPECT_EQ(AStar::Search(InGraph, InStartNode, InGoalNode), OutPath);
+    EXPECT_EQ(AStar::Search(InGraph, InStartNode, InGoalNode, InHeuristic), OutPath);
 }
 
 TEST_F(AStarTest, PathDoesNotExist)
@@ -163,7 +166,8 @@ TEST_F(AStarTest, PathDoesNotExist)
     const Graph& InGraph     = GetGraph();
     const Node   InStartNode = 3;
     const Node   InGoalNode  = 0;
+    Heuristic    InHeuristic = Heuristic(InGoalNode);
     const Path   OutPath     = {};
-    EXPECT_EQ(AStar::Search(InGraph, InStartNode, InGoalNode), OutPath);
+    EXPECT_EQ(AStar::Search(InGraph, InStartNode, InGoalNode, InHeuristic), OutPath);
 }
 } // namespace AStar

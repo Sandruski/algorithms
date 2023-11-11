@@ -10,6 +10,7 @@ class NodeRecord
 public:
     explicit NodeRecord(const Node inNode);
     explicit NodeRecord(const Node inNode, const Connection* inConnection);
+    explicit NodeRecord(const Node inNode, const float inEstimatedTotalCost);
 
     bool operator==(const NodeRecord& inOther) const;
 
