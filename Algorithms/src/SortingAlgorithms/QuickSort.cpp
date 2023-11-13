@@ -1,7 +1,5 @@
 #include "SortingAlgorithms/QuickSort.h"
 
-#include <vector>
-
 namespace SortingAlgorithms
 {
 namespace QuickSort

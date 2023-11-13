@@ -1,7 +1,5 @@
 #include "SearchAlgorithms/BinarySearch.h"
 
-#include <vector>
-
 namespace SearchAlgorithms
 {
 namespace BinarySearch

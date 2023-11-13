@@ -1,7 +1,5 @@
 #include "SortingAlgorithms/MergeSort.h"
 
-#include <vector>
-
 namespace SortingAlgorithms
 {
 namespace MergeSort

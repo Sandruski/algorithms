@@ -1,7 +1,5 @@
 #include "SortingAlgorithms/BubbleSort.h"
 
-#include <vector>
-
 namespace SortingAlgorithms
 {
 namespace BubbleSort

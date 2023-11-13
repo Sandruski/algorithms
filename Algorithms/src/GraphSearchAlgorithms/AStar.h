@@ -1,10 +1,6 @@
 #pragma once
 
-#include "GraphSearchAlgorithms/Helpers/Graph.h"
-#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmsHelpers.h"
-#include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
-
-#include <algorithm>
+#include "GraphSearchAlgorithms/Helpers/GraphFwd.h"
 
 namespace GraphSearchAlgorithms
 {
@@ -25,7 +21,7 @@ public:
     explicit Heuristic(const Node inGoalNode);
 
     // Returns an estimated cost to reach the goal node from the given node
-    float Estimate(MAYBE_UNUSED const Node inNode) const;
+    float Estimate(const Node inNode) const;
 
 private:
     Node mGoalNode = 0;

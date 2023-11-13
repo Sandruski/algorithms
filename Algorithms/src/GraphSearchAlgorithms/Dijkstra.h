@@ -1,10 +1,6 @@
 #pragma once
 
-#include "GraphSearchAlgorithms/Helpers/Graph.h"
-#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmsHelpers.h"
-#include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
-
-#include <algorithm>
+#include "GraphSearchAlgorithms/Helpers/GraphFwd.h"
 
 namespace GraphSearchAlgorithms
 {

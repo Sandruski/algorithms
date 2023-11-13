@@ -1,7 +1,5 @@
 #include "SortingAlgorithms/SelectionSort.h"
 
-#include <vector>
-
 namespace SortingAlgorithms
 {
 namespace SelectionSort
