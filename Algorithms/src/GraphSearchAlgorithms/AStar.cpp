@@ -1,39 +1,18 @@
+#include "GraphSearchAlgorithms/AStar.h"
+
 #include "GraphSearchAlgorithms/Helpers/Graph.h"
-#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmsHelpers.h"
 #include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
 #include <algorithm>
 
-using namespace GraphSearchAlgorithms;
-
-/**
- * AStar
- * Time/space complexity: O(lm) (l = number of nodes whose total estimated total cost is less than that of the goal node, m = average number of
- * outgoing connections from each node)
- */
+namespace GraphSearchAlgorithms
+{
 namespace AStar
 {
-/**
- * Non-negative value
- * E.g. Manhattan Distance
- */
-class Heuristic
+Heuristic::Heuristic(const Node inGoalNode) : mGoalNode(inGoalNode)
 {
-public:
-    explicit Heuristic(const Node inGoalNode) : mGoalNode(inGoalNode)
-    {
-    }
-
-    // Returns an estimated cost to reach the goal node from the given node
-    float Estimate(MAYBE_UNUSED const Node inNode) const
-    {
-        return 1.f;
-    }
-
-private:
-    Node mGoalNode = 0;
-};
+}
 
 const NodeRecord* FindLowestEstimatedTotalCostNodeRecord(const PathfindingList& inPathfindingList)
 {
@@ -146,28 +125,5 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode,
 
     return ReconstructPath(*CurrentNodeRecord, ClosedList, inStartNode, inGoalNode);
 }
-
-class AStarTest : public GraphSearchAlgorithmTestBase
-{
-};
-
-TEST_F(AStarTest, PathExists)
-{
-    const Graph& InGraph     = GetGraph();
-    const Node   InStartNode = 0;
-    const Node   InGoalNode  = 3;
-    Heuristic    InHeuristic = Heuristic(InGoalNode);
-    const Path   OutPath     = {Get0To2Connection(), Get2To1Connection(), Get1To3Connection()};
-    EXPECT_EQ(AStar::Search(InGraph, InStartNode, InGoalNode, InHeuristic), OutPath);
-}
-
-TEST_F(AStarTest, PathDoesNotExist)
-{
-    const Graph& InGraph     = GetGraph();
-    const Node   InStartNode = 3;
-    const Node   InGoalNode  = 0;
-    Heuristic    InHeuristic = Heuristic(InGoalNode);
-    const Path   OutPath     = {};
-    EXPECT_EQ(AStar::Search(InGraph, InStartNode, InGoalNode, InHeuristic), OutPath);
-}
 } // namespace AStar
+} // namespace GraphSearchAlgorithms

@@ -1,13 +1,9 @@
-#include "SortingAlgorithms/Helpers/SortingAlgorithmTestBase.h"
+#include "SortingAlgorithms/BubbleSort.h"
 
 #include <vector>
 
-using namespace SortingAlgorithms;
-
-/**
- * Bubble Sort
- * Time complexity: O(n^2)
- */
+namespace SortingAlgorithms
+{
 namespace BubbleSort
 {
 std::vector<int> Sort(std::vector<int> inNums)
@@ -40,15 +36,5 @@ std::vector<int> Sort(std::vector<int> inNums)
 
     return SortedNums;
 }
-
-class BubbleSortTest : public SortingAlgorithmTestBase
-{
-};
-
-TEST_F(BubbleSortTest, VectorIsSorted)
-{
-    const std::vector<int>& InNums  = GetNums();
-    const std::vector<int>  OutNums = {0, 0, 1, 1, 2, 5};
-    EXPECT_EQ(BubbleSort::Sort(InNums), OutNums);
-}
 } // namespace BubbleSort
+} // namespace SortingAlgorithms

@@ -1,13 +1,9 @@
-#include "SortingAlgorithms/Helpers/SortingAlgorithmTestBase.h"
+#include "SortingAlgorithms/SelectionSort.h"
 
 #include <vector>
 
-using namespace SortingAlgorithms;
-
-/**
- * Selection Sort
- * Time complexity: O(n^2)
- */
+namespace SortingAlgorithms
+{
 namespace SelectionSort
 {
 std::size_t FindSmallestNum(const std::vector<int>& inNums)
@@ -42,15 +38,5 @@ std::vector<int> Sort(std::vector<int> inNums)
 
     return SortedNums;
 }
-
-class SelectionSortTest : public SortingAlgorithmTestBase
-{
-};
-
-TEST_F(SelectionSortTest, VectorIsSorted)
-{
-    const std::vector<int>& InNums  = GetNums();
-    const std::vector<int>  OutNums = {0, 0, 1, 1, 2, 5};
-    EXPECT_EQ(SelectionSort::Sort(InNums), OutNums);
-}
 } // namespace SelectionSort
+} // namespace SortingAlgorithms

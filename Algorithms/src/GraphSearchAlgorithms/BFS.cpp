@@ -1,5 +1,6 @@
+#include "GraphSearchAlgorithms/BFS.h"
+
 #include "GraphSearchAlgorithms/Helpers/Graph.h"
-#include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmTestBase.h"
 #include "GraphSearchAlgorithms/Helpers/GraphSearchAlgorithmsHelpers.h"
 #include "GraphSearchAlgorithms/Helpers/PathfindingList.h"
 
@@ -7,13 +8,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-using namespace GraphSearchAlgorithms;
-
-/**
- * Breadth-First Search (BFS)
- * Time/space complexity: O(V+E)
- */
-
+namespace GraphSearchAlgorithms
+{
 namespace BFS
 {
 Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
@@ -65,26 +61,5 @@ Path Search(const Graph& inGraph, const Node inStartNode, const Node inGoalNode)
 
     return ReconstructPath(*CurrentNodeRecord, ProcessedNodes, inStartNode, inGoalNode);
 }
-
-class BFSTest : public GraphSearchAlgorithmTestBase
-{
-};
-
-TEST_F(BFSTest, PathExists)
-{
-    const Graph& InGraph     = GetGraph();
-    const Node   InStartNode = 0;
-    const Node   InGoalNode  = 3;
-    const Path   OutPath     = {Get0To1Connection(), Get1To3Connection()};
-    EXPECT_EQ(BFS::Search(InGraph, InStartNode, InGoalNode), OutPath);
-}
-
-TEST_F(BFSTest, PathDoesNotExist)
-{
-    const Graph& InGraph     = GetGraph();
-    const Node   InStartNode = 3;
-    const Node   InGoalNode  = 0;
-    const Path   OutPath     = {};
-    EXPECT_EQ(BFS::Search(InGraph, InStartNode, InGoalNode), OutPath);
-}
 } // namespace BFS
+} // namespace GraphSearchAlgorithms

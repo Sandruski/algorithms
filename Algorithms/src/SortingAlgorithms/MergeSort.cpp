@@ -1,13 +1,9 @@
-#include "SortingAlgorithms/Helpers/SortingAlgorithmTestBase.h"
+#include "SortingAlgorithms/MergeSort.h"
 
 #include <vector>
 
-using namespace SortingAlgorithms;
-
-/**
- * Merge Sort
- * Time complexity: O(nlogn). Always the same
- */
+namespace SortingAlgorithms
+{
 namespace MergeSort
 {
 void Merge(std::vector<int>& inNums, const std::vector<int>& inLeftNums, const std::vector<int>& inRightNums)
@@ -85,16 +81,5 @@ void Sort(std::vector<int>& inNums)
     Sort(RightNums);
     Merge(inNums, LeftNums, RightNums);
 }
-
-class MergeSortTest : public SortingAlgorithmTestBase
-{
-};
-
-TEST_F(MergeSortTest, VectorIsSorted)
-{
-    std::vector<int>       InNums  = GetNums();
-    const std::vector<int> OutNums = {0, 0, 1, 1, 2, 5};
-    MergeSort::Sort(InNums);
-    EXPECT_EQ(InNums, OutNums);
-}
 } // namespace MergeSort
+} // namespace SortingAlgorithms

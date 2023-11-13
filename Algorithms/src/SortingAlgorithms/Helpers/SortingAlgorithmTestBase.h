@@ -17,4 +17,4 @@ inline const std::vector<int>& SortingAlgorithmTestBase::GetNums() const
 {
     return mNums;
 }
-} // namespace GraphSearchAlgorithms
+} // namespace SortingAlgorithms
