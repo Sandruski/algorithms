@@ -1,6 +1,6 @@
--- Algorithms
-workspace "Algorithms"
-    startproject "Algorithms"
+-- Data Structures and Algorithms
+workspace "DataStructuresAndAlgorithms"
+    startproject "DataStructuresAndAlgorithms"
     architecture "x64"
     configurations { "Debug"--[[, "Release"--]] }
 
@@ -8,11 +8,11 @@ workspace "Algorithms"
     flags { "FatalWarnings" }
 
     filter "configurations:Debug"
-        defines { "HTN_DEBUG" }
+        defines { "DEBUG" }
         symbols "On"
 
     --[[filter "configurations:Release"
-        defines { "HTN_RELEASE" }
+        defines { "RELEASE" }
         optimize "On"--]]
 
     filter "system:windows"
@@ -20,9 +20,9 @@ workspace "Algorithms"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
--- Algorithms
-project "Algorithms"
-    location "Algorithms"
+-- Data Structures and Algorithms
+project "DataStructuresAndAlgorithms"
+    location "DataStructuresAndAlgorithms"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++20"
